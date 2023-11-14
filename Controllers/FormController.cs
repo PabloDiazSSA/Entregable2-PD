@@ -12,30 +12,6 @@ namespace Entregable2_PD.Api.Controllers
     [ApiController]
     public class FormController : ControllerBase
     {
-        [HttpPost("Get")]
-        public async Task<clsResponse<dynamic>> GetForm(FormDto form)
-        {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            foreach (var claim in identity.Claims)
-            {
-                Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
-            }
-            var rToken = Jwt.validateToken(identity);
-            var user = rToken;
-
-            if (user == null)
-            {
-                return new clsResponse<dynamic> { Error = true, ErrorMessage = "Unauthenticated" };
-            }
-
-            if (user.Role.ToUpper() != "USER")
-            {
-                return new clsResponse<dynamic> { Error = true, ErrorMessage = "Unauthorized" };
-            }
-
-            return new clsResponse<dynamic> { Error = true, Data = form };
-        }
-
         [HttpPost("Set")]
         public async Task<clsResponse<dynamic>> SetForm(FormDto form)
         {
