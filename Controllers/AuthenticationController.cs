@@ -9,15 +9,24 @@ using Entregable2_PD.Tools.Converters;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Security.Principal;
 
 namespace Entregable2_PD.Api.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
         private readonly DB _db;
-        private IConfiguration _config;
+        private readonly IConfiguration _config;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="db"></param>
+        /// <param name="config"></param>
         public AuthenticationController(DB db, IConfiguration config)
         {
             _db = db;
@@ -27,14 +36,18 @@ namespace Entregable2_PD.Api.Controllers
         /// <summary>
         /// Registro de usuarios
         /// </summary>
-        /// <param name="user"></param>
-        /// <returns>clsResponse<dynamic></returns>
+        /// <param name="signupUserDto">SignupUserDto</param>
+        /// <returns>clsResponse</returns>
         [HttpPost("Signup")]
-        public async Task<clsResponse<dynamic>> SignUp(SignupUserDto signupUserDto)
+        public async Task<ClsResponse<dynamic>> SignUp(SignupUserDto signupUserDto)
         {
             UserModel user = new();
             user.Action = "Signup";
             user.Salt = HelperCryptography.GenerateSalt();
+            if (signupUserDto is null || signupUserDto.Password is null)
+            {
+                return new ClsResponse<dynamic>() { Error= true , ErrorMessage = "Error en registro" };
+            }
             user.Password = HelperCryptography.EncriptarPassword(signupUserDto.Password, user.Salt);
             user.Name = signupUserDto.Name;
             user.LastName = signupUserDto.LastName;
@@ -47,57 +60,77 @@ namespace Entregable2_PD.Api.Controllers
         /// <summary>
         /// Obtiene el token para autorizar la comunicacion dependiendo los permisos del usuario
         /// </summary>
-        /// <param name="UserDto"></param>
+        /// <param name="userDto"></param>
         /// <returns>JWT token</returns>
         [HttpPost("Authenticate")]
-        public async Task<clsResponse<string>> Login(UserDto userDto)
+        public ClsResponse<string> Login(UserDto userDto)
         {
-            clsResponse<string> cls = new clsResponse<string>();
+            ClsResponse<string> cls = new ClsResponse<string>();
             cls.Error = true;
             cls.Message = "Falló la Autenticacion";
             try
             {
-                var U = _config.GetSection("CRED:EmailIntA").Value;
-                var P = _config.GetSection("CRED:PwdIntA").Value;
-                var S = _config.GetSection("CRED:SaltIntA").Value;
-                var UT = _config.GetSection("CRED:EmailIntU").Value;
-                var PT = _config.GetSection("CRED:PwdIntU").Value;
-                var ST = _config.GetSection("CRED:SaltIntU").Value;
-
-                var UE = _config.GetSection("CRED:EmailExtA").Value;
-                var PE = _config.GetSection("CRED:PwdExtA").Value;
-                var SE = _config.GetSection("CRED:SaltExtA").Value;
-                var UTE = _config.GetSection("CRED:EmailExtU").Value;
-                var PTE = _config.GetSection("CRED:PwdExtU").Value;
-                var STE = _config.GetSection("CRED:SaltExtU").Value;
-
-                if (userDto.Email.ToLower() != U || userDto.Password != P)
+                if (userDto is null || userDto.Email is null)
                 {
-                    if (userDto.Email.ToLower() != UT || userDto.Password != PT)
-                    {
-                        if (userDto.Email.ToLower() != UE || userDto.Password != PE)
-                        {
-                            if (userDto.Email.ToLower() != UTE || userDto.Password != PTE)
-                            {
-                                cls.Message = $"Credenciales inválidas. ";
-                                return cls;
-                            }
-                        }
-                    }
+                    return cls;
                 }
-                //REspusta de bd con dato de usuario
-                UserModel userModel = new UserModel()
+                UserModel userIntA = new UserModel()
                 {
-                    Id = 0,
-                    Name = (userDto.Email).Split('@')[0],
-                    Email = userDto.Email,
-                    Password = HelperCryptography.EncriptarPassword(userDto.Password, (userDto.Email.Contains("administrador") ? (userDto.Email.Contains("ssamexico") ? S : SE) : (userDto.Email.Contains("ssamexico") ? ST : STE))),
-                    Salt = (userDto.Email.Contains("administrador") ? (userDto.Email.Contains("ssamexico") ? S : SE) : (userDto.Email.Contains("ssamexico") ? ST : STE)),
+                    Name = userDto.Email.Split('@')[0],
+                    Email = _config.GetSection("CRED:EmailIntA").Value,
+                    Password = HelperCryptography.EncriptarPassword(_config.GetSection("CRED:PwdIntA").Value, _config.GetSection("CRED:SaltIntA").Value),
+                    Salt = _config.GetSection("CRED:SaltIntA").Value,
                     Type = "AUTHORIZED", //(userDto.Email.Contains("ssamexico") ? "AUTHORIZED" : "UNAUTHORIZED"),
                     Role = (userDto.Email.Contains("administrador") ? "ADMIN" : "USER"),
                     RegDate = DateTime.Now,
-
                 };
+
+                UserModel userIntU = new UserModel()
+                {
+                    Name = userDto.Email.Split('@')[0],
+                    Email = _config.GetSection("CRED:EmailIntU").Value,
+                    Password = HelperCryptography.EncriptarPassword(_config.GetSection("CRED:PwdIntU").Value, _config.GetSection("CRED:SaltIntU").Value),
+                    Salt = _config.GetSection("CRED:SaltIntU").Value,
+                    Role = (userDto.Email.Contains("administrador") ? "ADMIN" : "USER"),
+                    RegDate = DateTime.Now,
+                };
+
+                UserModel userExtA = new UserModel()
+                {
+                    Name = userDto.Email.Split('@')[0],
+                    Email = _config.GetSection("CRED:EmailExtA").Value,
+                    Password = HelperCryptography.EncriptarPassword(_config.GetSection("CRED:PwdExtA").Value, _config.GetSection("CRED:SaltExtA").Value),
+                    Salt = _config.GetSection("CRED:SaltExtA").Value,
+                    Role = (userDto.Email.Contains("administrador") ? "ADMIN" : "USER"),
+                    RegDate = DateTime.Now,
+                };
+
+                UserModel userExtU = new UserModel()
+                {
+                    Name = userDto.Email.Split('@')[0],
+                    Email = _config.GetSection("CRED:EmailExtU").Value,
+                    Password = HelperCryptography.EncriptarPassword(_config.GetSection("CRED:PwdExtU").Value, _config.GetSection("CRED:SaltExtU").Value),
+                    Salt = _config.GetSection("CRED:SaltExtU").Value,
+                    Role = (userDto.Email.Contains("administrador") ? "ADMIN" : "USER"),
+                    RegDate = DateTime.Now,
+                };
+
+
+                var DbUsers = new List<UserModel>
+                {
+                    userIntA,
+                    userIntU,
+                    userExtA,
+                    userExtU
+                };
+
+                UserModel DbUser = DbUsers.First(x => x.Email == userDto.Email.ToLower());
+                if (DbUser is null || DbUser.Password is null || DbUser.Salt is null || userDto.Password is null)
+                {
+                    cls.Message = $"Credenciales inválidas. ";
+                    return cls;
+                }
+              
 
 #if !DEBUG
                 UserModel userModel = new UserModel();
@@ -113,19 +146,18 @@ namespace Entregable2_PD.Api.Controllers
                 userModel = result.Data;
 #endif
                 //Debemos comparar con la base de datos el password haciendo de nuevo el cifrado con cada salt de usuario
-                byte[] passUsuario = userModel.Password;
-                string salt = userModel.Salt;
+
                 //Ciframos de nuevo para comparar
-                byte[] temporal = HelperCryptography.EncriptarPassword(userDto.Password, salt);
+                byte[] temporal = HelperCryptography.EncriptarPassword(userDto.Password, DbUser.Salt);
 
                 //Comparamos los arrays para comprobar si el cifrado es el mismo
-                if(!HelperCryptography.compareArrays(passUsuario, temporal))
+                if (!HelperCryptography.compareArrays(DbUser.Password, temporal))
                 {
                     return cls;
                 }
 
 
-                var tokenStr = GenerateToken(userModel);
+                var tokenStr = GenerateToken(DbUser);
                 cls.Data = null;
                 cls.Error = false;
                 cls.Message = "Success";
@@ -149,16 +181,25 @@ namespace Entregable2_PD.Api.Controllers
         {
             try
             {
+                if (administrator is null || administrator.Name is null || administrator.Email is null || administrator.Type is null || administrator.Role is null)
+                {
+                    throw new ArgumentException("Error generando token");
+                }
+
                 var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                new Claim(ClaimTypes.Name, administrator.Name),
-                new Claim(ClaimTypes.Email, administrator.Email),
-                new Claim("Type", administrator.Type),
-                new Claim("Role", administrator.Role)
-            };
+                {
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+                    new Claim(ClaimTypes.Name, administrator.Name),
+                    new Claim(ClaimTypes.Email, administrator.Email),
+                    new Claim("Type", administrator.Type),
+                    new Claim("Role", administrator.Role)
+                };
                 var jwt = _config.GetSection("JWT").Get<Jwt>();
+                if (jwt is null || jwt.Key is null)
+                {
+                    throw new ArgumentException("Error generando token");
+                }
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key));
                 SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -171,9 +212,11 @@ namespace Entregable2_PD.Api.Controllers
 
                 return new JwtSecurityTokenHandler().WriteToken(securityToken);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+#if DEBUG
+                Console.WriteLine(ex.Message);
+#endif
                 throw;
             }
 

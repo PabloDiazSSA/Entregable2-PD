@@ -6,11 +6,27 @@ using System.Threading.Tasks;
 
 namespace Entregable2_PD.Model.Response
 {
-    public class clsPaginated<T>
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class ClsPaginated<T>
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public int? CounPage { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public int Size { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public int CountRegister { get; set; }
-        public T Entity { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public T? Entity { get; set; }
     }
 }

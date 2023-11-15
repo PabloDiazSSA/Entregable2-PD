@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Entregable2_PD.Tools.Converters
 {
-    public class CardNumberTo
+    /// <summary>
+    /// 
+    /// </summary>
+    public static class CardNumberTo
     {
         /// <summary>
         /// Enmascarar con X el numero de tarjetas exeptuando los ultimos 4 digitos

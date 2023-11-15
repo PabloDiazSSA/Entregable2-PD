@@ -7,8 +7,18 @@ using System.Threading.Tasks;
 
 namespace Entregable2_PD.Tools.Converters
 {
-    public class ModelToParams
+    /// <summary>
+    /// 
+    /// </summary>
+    public static class ModelToParams
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public static List<Param> GetParams<T>(T model) where T : class
         {
             try
@@ -24,8 +34,7 @@ namespace Entregable2_PD.Tools.Converters
             }
             catch (Exception ex)
             {
-                var a = ex.Message;
-                throw;
+                throw new ArgumentNullException(ex.Message);
             }
         }
     }

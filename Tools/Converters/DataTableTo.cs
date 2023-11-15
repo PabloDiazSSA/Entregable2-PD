@@ -7,8 +7,16 @@ using System.Threading.Tasks;
 
 namespace Entregable2_PD.Tools.Converters
 {
-    public class DataTableTo
+    /// <summary>
+    /// 
+    /// </summary>
+    public static class DataTableTo
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="table"></param>
+        /// <returns></returns>
         public static string DataTableToJSON(DataTable table)
         {
             var JSONString = new StringBuilder();

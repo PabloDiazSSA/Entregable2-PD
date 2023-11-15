@@ -3,18 +3,36 @@ using System.Security.Claims;
 
 namespace Entregable2_PD.Models.DBO.Models
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Jwt
     {
-        public string Key { get; set; }
-        public string Issuer { get; set; }
-        public string Audience { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string? Key { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string? Issuer { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string? Audience { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="identity"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public static UserModel validateToken(ClaimsIdentity identity)
         {
             try
             {
                 if (identity == null || !identity.Claims.Any())
                 {
-                    throw new Exception("Invalid Token: Identity claims are missing.");
+                    throw new ArgumentNullException(nameof(identity));
                 }
                 List<UserModel> db = new List<UserModel>
                 {
@@ -50,14 +68,14 @@ namespace Entregable2_PD.Models.DBO.Models
 
                 var emailClaim = identity.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value;
                 Console.WriteLine("Email from claim: " + emailClaim);
-                var user = db.FirstOrDefault(x => x.Email == emailClaim);
 
+                var user = db.First(x => x.Email == emailClaim);
                 return user;
             }
             catch (Exception e)
             {
                 Console.WriteLine("Error in validateToken: " + e.ToString());
-                throw new Exception("Invalid Token: An error occurred while processing the token.", e);
+                throw new ArgumentNullException(e.Message);
             }
         }
     }

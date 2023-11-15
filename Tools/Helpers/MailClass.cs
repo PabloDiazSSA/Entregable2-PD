@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
@@ -7,20 +8,61 @@ using System.Threading.Tasks;
 
 namespace Entregable2_PD.Tools.Helpers
 {
+	/// <summary>
+	/// 
+	/// </summary>
     public class FileClass
     {
-        public string FileName { get; set; }
-        public string ContentType { get; set; }
-        public byte[] File { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+        public string? FileName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+        public string? ContentType { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+        public byte[]? File { get; set; }
     }
+	/// <summary>
+	/// 
+	/// </summary>
     public class MailClass
     {
-        public string[] to { get; set; }
-        public string[] cc { get; set; }
-        public string subject { get; set; }
-        public string body { get; set; }
-        public List<FileClass> Files { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+        public string[]? to { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+        public string[]? cc { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+        public string? subject { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+        public string? body { get; set; }
+		/// <summary>
+		/// fhfgh
+		/// </summary>
+        public List<FileClass>? Files { get; set; }
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="title"></param>
+		/// <param name="bodyText"></param>
+		/// <param name="link"></param>
+		/// <param name="linkText"></param>
+		/// <param name="noRespond"></param>
+		/// <param name="copyRight"></param>
+		/// <param name="urlLogo"></param>
+		/// <returns></returns>
         public static string MailStringHtml(string title, string bodyText, string link, string linkText, string noRespond, string copyRight, string urlLogo = "https://www.ssamexico.com/assets/image/logo/logo.png")
         {
             string strMail = @"<!DOCTYPE html>

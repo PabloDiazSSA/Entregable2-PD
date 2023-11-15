@@ -6,11 +6,23 @@ using System.Threading.Tasks;
 
 namespace Entregable2_PD.Models.Response
 {
-    public class clsResponseAditional
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ClsResponseAditional
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public int? ErrorCode { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public int? Value { get; set; }
-        public string Token { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string? Token { get; set; }
 
     }
 }

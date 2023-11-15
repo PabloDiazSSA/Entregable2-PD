@@ -8,17 +8,31 @@ using System.Data.SqlClient;
 
 namespace Entregable2_PD.Data
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class DB
     {
         private readonly IConfiguration _Config;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="configuration"></param>
         public DB(IConfiguration configuration)
         {
             _Config = configuration;
         }
-        public async Task<clsResponse<dynamic>> ExecuteSpAsync<T>(string sp, List<Param> lstParams)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sp"></param>
+        /// <param name="lstParams"></param>
+        /// <returns></returns>
+        public async Task<ClsResponse<dynamic>> ExecuteSpAsync<T>(string sp, List<Param> lstParams)
         {
-            clsResponse<dynamic> response = new clsResponse<dynamic>();
+            ClsResponse<dynamic> response = new ClsResponse<dynamic>();
             using (var conn = new SqlConnection(_Config.GetConnectionString("DefaultConnection")))
             {
                 using (var cmd = new SqlCommand(sp, conn))
@@ -30,7 +44,7 @@ namespace Entregable2_PD.Data
                         {
                             foreach (Param param in lstParams)
                             {
-                                if (!param.Output)
+                                if (param.Output is not null && (bool)!param.Output)
                                 {
                                     cmd.Parameters.AddWithValue(param.Name, param.Value);
                                 }
@@ -127,6 +141,11 @@ namespace Entregable2_PD.Data
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
         public async Task<DataTable> TableAsync(SqlCommand c)
         {
             DataTable dt = new DataTable("dt");
@@ -153,7 +172,7 @@ namespace Entregable2_PD.Data
 #if DEBUG
                         Console.WriteLine(ex.Message);
 #endif
-                        throw new Exception(msg);
+                        throw new ArgumentNullException(msg);
                     }
                 }
             }

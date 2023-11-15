@@ -7,8 +7,17 @@ using System.Threading.Tasks;
 
 namespace Entregable2_PD.Tools.Converters
 {
-    public class ModelToString
+    /// <summary>
+    /// 
+    /// </summary>
+    public static class ModelToString
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public static string GetString<T>(T model) where T : class
         {
             string obj = string.Empty;
@@ -18,7 +27,6 @@ namespace Entregable2_PD.Tools.Converters
                 foreach (PropertyInfo oProperty in lst)
                 {
                     string NombreAtributo = oProperty.Name;
-                    // string Tipo = oProperty.GetType().ToString();
                     string? Valor = (oProperty.GetValue(model) == null) ? "NULL" : oProperty.GetValue(model).ToString();
                     obj += $" {NombreAtributo}:{Valor},";
                 }

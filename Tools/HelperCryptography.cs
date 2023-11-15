@@ -3,6 +3,9 @@ using System.Text;
 
 namespace Entregable2_PD.Tools
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class HelperCryptography
     {
         /// <summary>
@@ -11,15 +14,7 @@ namespace Entregable2_PD.Tools
         /// <returns></returns>
         public static string GenerateSalt()
         {
-            Random random = new Random();
-            string salt = "";
-            for (int i = 1; i <= 50; i++)
-            {
-                int numero = random.Next(0, 255);
-                char letra = Convert.ToChar(numero);
-                salt += letra;
-            }
-            return salt;
+            return Guid.NewGuid().ToString();
         }
         /// <summary>
         /// 
@@ -39,7 +34,7 @@ namespace Entregable2_PD.Tools
                 //comparamos byte a byte
                 for (int i = 0; i < a.Length; i++)
                 {
-                    if (a[i].Equals(b[i]) == false)
+                    if (a[i].Equals(b[i]))
                     {
                         iguales = false;
                         break;
@@ -58,16 +53,8 @@ namespace Entregable2_PD.Tools
         /// <returns>password encripted</returns>
         public static byte[] EncriptarPassword(string password, string salt)
         {
-            string contenido = password + salt;
-            SHA256Managed sha = new SHA256Managed();
-            byte[] salida = Encoding.UTF8.GetBytes(contenido);
-            for (int i = 1; i <= 107; i++)
-            {
-                salida = sha.ComputeHash(salida);
-            }
-            sha.Clear();
-            return salida;
-
+            SHA256 sha256 = SHA256.Create();
+            return sha256.ComputeHash(Convert.FromBase64String(password + salt));
         }
         /// <summary>
         /// Codificacion SHA256 de texto plano
