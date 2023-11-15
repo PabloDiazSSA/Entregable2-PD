@@ -85,10 +85,11 @@ namespace Entregable2_PD.Data
                             }
                             else
                             {
+                                
+                                var lstResult = JsonConvert.DeserializeObject<Collection<T>>(json);
                                 response.Error = false;
                                 response.Message = "Success";
-                                var lstResult = JsonConvert.DeserializeObject<Collection<T>>(json);
-                                response.Data = lstResult.FirstOrDefault();
+                                response.Data = (lstResult is not null ? lstResult.FirstOrDefault() : null);
                             }
                         }
                         else
