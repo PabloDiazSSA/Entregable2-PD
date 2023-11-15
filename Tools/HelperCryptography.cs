@@ -5,6 +5,10 @@ namespace Entregable2_PD.Tools
 {
     public static class HelperCryptography
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public static string GenerateSalt()
         {
             Random random = new Random();
@@ -17,7 +21,12 @@ namespace Entregable2_PD.Tools
             }
             return salt;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static bool compareArrays(byte[] a, byte[] b)
         {
             bool iguales = true;
