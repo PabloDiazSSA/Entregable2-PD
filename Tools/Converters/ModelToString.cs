@@ -17,18 +17,27 @@ namespace Entregable2_PD.Tools.Converters
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="model"></param>
+        /// <param name="obj"></param>
         /// <returns></returns>
-        public static string GetString<T>(T model) where T : class
+        public static string GetString<T>(T model, string obj = "") where T : class
         {
-            string obj = string.Empty;
             try
             {
                 PropertyInfo[] lst = typeof(T).GetProperties();
                 foreach (PropertyInfo oProperty in lst)
                 {
-                    string NombreAtributo = oProperty.Name;
-                    string? Valor = (oProperty.GetValue(model) == null) ? "NULL" : oProperty.GetValue(model).ToString();
-                    obj += $" {NombreAtributo}:{Valor},";
+                    var value = oProperty.GetValue(model);
+                    string? Valor=string.Empty;
+                    if (value is null)
+                    {
+                        Valor = "NULL";
+                    }
+                    if (value is not null && value.ToString() == string.Empty)
+                    {
+                        Valor = value.ToString();
+                    }
+                    
+                    obj += @$" {oProperty.Name}:{Valor},";
                 }
                 return obj;
             }
