@@ -17,13 +17,13 @@ namespace Entregable2_PD.Tools.Converters
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="model"></param>
-        /// <param name="obj"></param>
         /// <returns></returns>
-        public static string GetString<T>(T model, string obj = "") where T : class
+        public static string GetString<T>(T model) where T : class
         {
             try
             {
                 PropertyInfo[] lst = typeof(T).GetProperties();
+                StringBuilder bld = new StringBuilder();
                 foreach (PropertyInfo oProperty in lst)
                 {
                     var value = oProperty.GetValue(model);
@@ -36,15 +36,13 @@ namespace Entregable2_PD.Tools.Converters
                     {
                         Valor = value.ToString();
                     }
-                    
-                    obj += @$" {oProperty.Name}:{Valor},";
+                    bld.Append(@$" {oProperty.Name}:{Valor},");
                 }
-                return obj;
+                return bld.ToString();
             }
             catch (Exception ex)
             {
-                obj = ex.Message;
-                return obj;
+                return ex.Message;
                 throw;
             }
         }
