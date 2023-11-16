@@ -19,7 +19,7 @@ namespace Entregable2_PD.Tools.Helpers
         /// <returns></returns>
         public static string RemoveHtml(string text)
         {
-            Regex removeHTMLtagsRegex = new Regex("<(?:\"[^\"]*\"['\"]*|'[^']*'['\"]*|[^'\">])+>");
+            Regex removeHTMLtagsRegex = new Regex("<(?:\"[^\"]*\"['\"]*|'[^']*'['\"]*|[^'\">])+>", RegexOptions.None, TimeSpan.FromMilliseconds(100));
             return removeHTMLtagsRegex.Replace(text, string.Empty);
 
         }
