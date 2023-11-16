@@ -1,15 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Entregable2_PD.Data;
 using Entregable2_PD.Models.DBO.DTO;
 using Entregable2_PD.Models.DBO.Models;
 using Entregable2_PD.Models.Response;
 using Entregable2_PD.Tools;
-using Entregable2_PD.Tools.Converters;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Security.Principal;
 
 namespace Entregable2_PD.Api.Controllers
 {
@@ -20,41 +17,14 @@ namespace Entregable2_PD.Api.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private readonly DB _db;
         private readonly IConfiguration _config;
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="db"></param>
         /// <param name="config"></param>
-        public AuthenticationController(DB db, IConfiguration config)
+        public AuthenticationController(IConfiguration config)
         {
-            _db = db;
             _config = config;
-        }
-
-        /// <summary>
-        /// Registro de usuarios
-        /// </summary>
-        /// <param name="signupUserDto">SignupUserDto</param>
-        /// <returns>clsResponse</returns>
-        [HttpPost("Signup")]
-        public async Task<ClsResponse<dynamic>> SignUp(SignupUserDto signupUserDto)
-        {
-            UserModel user = new();
-            user.Action = "Signup";
-            user.Salt = HelperCryptography.GenerateSalt();
-            if (signupUserDto is null || signupUserDto.Password is null)
-            {
-                return new ClsResponse<dynamic>() { Error= true , ErrorMessage = "Error en registro" };
-            }
-            user.Password = HelperCryptography.EncriptarPassword(signupUserDto.Password, user.Salt);
-            user.Name = signupUserDto.Name;
-            user.LastName = signupUserDto.LastName;
-            user.Email = signupUserDto.Email;
-            user.Type = signupUserDto.Type;
-
-            return await _db.ExecuteSpAsync<UserModel>(_config.GetSection("SP:Auth").Value, ModelToParams.GetParams<UserModel>(user));
         }
 
         /// <summary>
