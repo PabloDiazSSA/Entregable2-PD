@@ -32,7 +32,7 @@ namespace Entregable2_PD.Api.Controllers
             {
                 Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
             }
-            var rToken = Jwt.validateToken(identity);
+            var rToken = Jwt.ValidateToken(identity);
             var user = rToken;
 
             if (user is null || user.Role is null)

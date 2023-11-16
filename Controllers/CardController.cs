@@ -74,7 +74,7 @@ namespace Entregable2_PD.Api.Controllers
 
             try
             {
-                var rToken = Jwt.validateToken(identity);
+                var rToken = Jwt.ValidateToken(identity);
                 var user = rToken;
 
                 if (user == null)

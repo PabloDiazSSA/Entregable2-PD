@@ -26,7 +26,7 @@ namespace Entregable2_PD.Models.DBO.Models
         /// <param name="identity"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public static UserModel validateToken(ClaimsIdentity identity)
+        public static UserModel ValidateToken(ClaimsIdentity identity)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace Entregable2_PD.Models.DBO.Models
                 {
                     throw new ArgumentNullException(nameof(identity));
                 }
-                List<UserModel> db = new List<UserModel>
+                List<UserModel> db = new()
                 {
                     new UserModel
                     {
