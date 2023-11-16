@@ -32,7 +32,7 @@ namespace Entregable2_PD.Models.DBO.Models
             {
                 if (identity == null || !identity.Claims.Any())
                 {
-                    throw new ArgumentNullException(nameof(identity));
+                    throw new Exception(nameof(identity));
                 }
                 List<UserModel> db = new List<UserModel>
                 {
@@ -69,13 +69,13 @@ namespace Entregable2_PD.Models.DBO.Models
                 var emailClaim = identity.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value;
                 Console.WriteLine("Email from claim: " + emailClaim);
 
-                var user = db.First(x => x.Email == emailClaim);
+                var user = db.FirstOrDefault(x => x.Email == emailClaim);
                 return user;
             }
             catch (Exception e)
             {
                 Console.WriteLine("Error in validateToken: " + e.ToString());
-                throw new ArgumentNullException(e.Message);
+                throw new Exception(e.Message);
             }
         }
     }
