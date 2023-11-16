@@ -35,16 +35,18 @@ namespace Entregable2_PD.Api.Controllers
         [HttpPost("Authenticate")]
         public ClsResponse<string> Login(UserDto userDto)
         {
-            ClsResponse<string> cls = new ClsResponse<string>();
-            cls.Error = true;
-            cls.Message = "Falló la Autenticacion";
+            ClsResponse<string> cls = new()
+            {
+                Error = true,
+                Message = "Falló la Autenticacion"
+            };
             try
             {
                 if (userDto is null || userDto.Email is null)
                 {
                     return cls;
                 }
-                UserModel userIntA = new UserModel()
+                UserModel userIntA = new()
                 {
                     Name = userDto.Email.Split('@')[0],
                     Email = _config.GetSection("CRED:EmailIntA").Value,
@@ -55,7 +57,7 @@ namespace Entregable2_PD.Api.Controllers
                     RegDate = DateTime.Now,
                 };
 
-                UserModel userIntU = new UserModel()
+                UserModel userIntU = new()
                 {
                     Name = userDto.Email.Split('@')[0],
                     Email = _config.GetSection("CRED:EmailIntU").Value,
@@ -65,7 +67,7 @@ namespace Entregable2_PD.Api.Controllers
                     RegDate = DateTime.Now,
                 };
 
-                UserModel userExtA = new UserModel()
+                UserModel userExtA = new()
                 {
                     Name = userDto.Email.Split('@')[0],
                     Email = _config.GetSection("CRED:EmailExtA").Value,
@@ -75,7 +77,7 @@ namespace Entregable2_PD.Api.Controllers
                     RegDate = DateTime.Now,
                 };
 
-                UserModel userExtU = new UserModel()
+                UserModel userExtU = new()
                 {
                     Name = userDto.Email.Split('@')[0],
                     Email = _config.GetSection("CRED:EmailExtU").Value,
@@ -171,7 +173,7 @@ namespace Entregable2_PD.Api.Controllers
                     throw new ArgumentException("Error generando token");
                 }
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key));
-                SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                SigningCredentials creds = new(key, SecurityAlgorithms.HmacSha256);
 
                 var securityToken = new JwtSecurityToken(
                     jwt.Issuer,
