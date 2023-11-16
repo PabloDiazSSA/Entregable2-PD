@@ -34,7 +34,7 @@ namespace Entregable2_PD.Tools
                 //comparamos byte a byte
                 for (int i = 0; i < a.Length; i++)
                 {
-                    if (a[i].Equals(b[i]))
+                    if (!a[i].Equals(b[i]))
                     {
                         iguales = false;
                         break;
@@ -54,7 +54,7 @@ namespace Entregable2_PD.Tools
         public static byte[] EncriptarPassword(string password, string salt)
         {
             SHA256 sha256 = SHA256.Create();
-            return sha256.ComputeHash(Convert.FromBase64String(password + salt));
+            return sha256.ComputeHash(Encoding.UTF8.GetBytes(string.Concat(password,salt)));
         }
         /// <summary>
         /// Codificacion SHA256 de texto plano

@@ -18,7 +18,7 @@ namespace Entregable2_PD.Tools.Converters
         /// <returns>string masked</returns>
         public static string MaskCreditCard(string cardNumber)
         {
-            return new string('X', cardNumber.Length - 4) + cardNumber.Substring(cardNumber.Length - 4, 4);
+            return string.Concat(new string('X', cardNumber.Length - 4), cardNumber.AsSpan(cardNumber.Length - 4, 4));
         }
     }
 }
