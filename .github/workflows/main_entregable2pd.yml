@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'Entregable2PD'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4150B1CF217E4F61A2DA281662E8C1A8 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_154C88CA55644DC79A864581C1BC768E }}
           package: .
