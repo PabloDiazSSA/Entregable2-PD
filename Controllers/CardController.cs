@@ -134,7 +134,11 @@ namespace Entregable2_PD.Api.Controllers
             }
             catch (Exception ex)
             {
+                string msg = "No se pudo Loguear favor de reintentar más tarde.";
+#if DEBUG
                 Console.WriteLine(ex.Message);
+#endif
+                response.ErrorMessage = msg;
                 return response;
             }
 

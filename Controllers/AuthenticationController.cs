@@ -190,6 +190,7 @@ namespace Entregable2_PD.Api.Controllers
 #if DEBUG
                 Console.WriteLine(ex.Message);
 #endif
+                return string.Empty;
                 throw;
             }
 
