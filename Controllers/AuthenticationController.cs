@@ -74,7 +74,7 @@ namespace Entregable2_PD.Api.Controllers
                     Email = _config.GetSection("CRED:EmailExtA").Value,
                     Password = HelperCryptography.EncriptarPassword(_config.GetSection("CRED:PwdExtA").Value, _config.GetSection("CRED:SaltExtA").Value),
                     Salt = _config.GetSection("CRED:SaltExtA").Value,
-                    Type = (userDto.Email.Contains("interno") ? "AUTHORIZED" : "UNAUTHORIZED"),
+                    Type =  "AUTHORIZED",
                     Role = (userDto.Email.Contains("administrador") ? "ADMIN" : "USER"),
                     RegDate = DateTime.Now,
                 };
@@ -85,7 +85,7 @@ namespace Entregable2_PD.Api.Controllers
                     Email = _config.GetSection("CRED:EmailExtU").Value,
                     Password = HelperCryptography.EncriptarPassword(_config.GetSection("CRED:PwdExtU").Value, _config.GetSection("CRED:SaltExtU").Value),
                     Salt = _config.GetSection("CRED:SaltExtU").Value,
-                    Type = (userDto.Email.Contains("interno") ? "AUTHORIZED" : "UNAUTHORIZED"),
+                    Type = "UNAUTHORIZED",
                     Role = (userDto.Email.Contains("administrador") ? "ADMIN" : "USER"),
                     RegDate = DateTime.Now,
                 };
