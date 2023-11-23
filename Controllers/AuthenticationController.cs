@@ -52,7 +52,7 @@ namespace Entregable2_PD.Api.Controllers
                     Email = _config.GetSection("CRED:EmailIntA").Value,
                     Password = HelperCryptography.EncriptarPassword(_config.GetSection("CRED:PwdIntA").Value, _config.GetSection("CRED:SaltIntA").Value),
                     Salt = _config.GetSection("CRED:SaltIntA").Value,
-                    Type = "AUTHORIZED", //(userDto.Email.Contains("interno") ? "AUTHORIZED" : "UNAUTHORIZED"),
+                    Type = (userDto.Email.Contains("interno") ? "AUTHORIZED" : "UNAUTHORIZED"),
                     Role = (userDto.Email.Contains("administrador") ? "ADMIN" : "USER"),
                     RegDate = DateTime.Now,
                 };
@@ -63,6 +63,7 @@ namespace Entregable2_PD.Api.Controllers
                     Email = _config.GetSection("CRED:EmailIntU").Value,
                     Password = HelperCryptography.EncriptarPassword(_config.GetSection("CRED:PwdIntU").Value, _config.GetSection("CRED:SaltIntU").Value),
                     Salt = _config.GetSection("CRED:SaltIntU").Value,
+                    Type = (userDto.Email.Contains("interno") ? "AUTHORIZED" : "UNAUTHORIZED"),
                     Role = (userDto.Email.Contains("administrador") ? "ADMIN" : "USER"),
                     RegDate = DateTime.Now,
                 };
@@ -73,6 +74,7 @@ namespace Entregable2_PD.Api.Controllers
                     Email = _config.GetSection("CRED:EmailExtA").Value,
                     Password = HelperCryptography.EncriptarPassword(_config.GetSection("CRED:PwdExtA").Value, _config.GetSection("CRED:SaltExtA").Value),
                     Salt = _config.GetSection("CRED:SaltExtA").Value,
+                    Type = (userDto.Email.Contains("interno") ? "AUTHORIZED" : "UNAUTHORIZED"),
                     Role = (userDto.Email.Contains("administrador") ? "ADMIN" : "USER"),
                     RegDate = DateTime.Now,
                 };
@@ -83,6 +85,7 @@ namespace Entregable2_PD.Api.Controllers
                     Email = _config.GetSection("CRED:EmailExtU").Value,
                     Password = HelperCryptography.EncriptarPassword(_config.GetSection("CRED:PwdExtU").Value, _config.GetSection("CRED:SaltExtU").Value),
                     Salt = _config.GetSection("CRED:SaltExtU").Value,
+                    Type = (userDto.Email.Contains("interno") ? "AUTHORIZED" : "UNAUTHORIZED"),
                     Role = (userDto.Email.Contains("administrador") ? "ADMIN" : "USER"),
                     RegDate = DateTime.Now,
                 };
