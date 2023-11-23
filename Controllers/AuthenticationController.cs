@@ -103,7 +103,7 @@ namespace Entregable2_PD.Api.Controllers
                     return cls;
                 }
               
-
+/* //Funcionalidad para uso de base de datos
 #if !DEBUG
                 UserModel userModel = new UserModel();
                 userModel.Action = "Authenticate";
@@ -117,6 +117,7 @@ namespace Entregable2_PD.Api.Controllers
 
                 userModel = result.Data;
 #endif
+*/
                 //Debemos comparar con la base de datos el password haciendo de nuevo el cifrado con cada salt de usuario
 
                 //Ciframos de nuevo para comparar
