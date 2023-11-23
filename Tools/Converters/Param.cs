@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Entregable2_PD.Tools
+namespace Entregable2_PD.Tools.Converters
 {
     /// <summary>
     /// 
@@ -30,15 +30,15 @@ namespace Entregable2_PD.Tools
             Value = value;
             Output = false;
         }
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="name"></param>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
         public Param(string name)
         {
             Name = name;
             Output = true;
         }
-        
+
     }
 }

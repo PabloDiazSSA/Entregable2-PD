@@ -6,12 +6,12 @@ using System.Text;
 using Entregable2_PD.Tools.Converters;
 using System.Security.Claims;
 using Entregable2_PD.Models.DBO.Models;
-using Entregable2_PD.Tools;
+using Entregable2_PD.Tools.Helpers;
 
 namespace Entregable2_PD.Api.Controllers
 {
     /// <summary>
-    /// 
+    /// CardController
     /// </summary>
     [Authorize(Policy = "AUTHORIZED")]
     [Route("api/[controller]")]
@@ -20,28 +20,28 @@ namespace Entregable2_PD.Api.Controllers
     {
         private readonly IConfiguration _config;
         /// <summary>
-        /// 
+        /// Almacena el numero de tarjeta original
         /// </summary>
         public static string A { get; set; } = string.Empty;
         /// <summary>
-        /// 
+        /// Almacena el numero de tarjeta codificado
         /// </summary>
         public static string AC { get; set; } = string.Empty;
         /// <summary>
-        /// 
+        /// Almacena el numero de tarjeta encriptado y codificado
         /// </summary>
         public static byte[]? AE { get; set; }
         /// <summary>
-        /// 
+        /// Almacena el numero de tarjeta codificado desencriptado
         /// </summary>
         public static string B { get; set; } = string.Empty;
         /// <summary>
-        /// 
+        /// Almacena el numero de tarjeta codificado
         /// </summary>
         public static string BC { get; set; } = string.Empty;
 
         /// <summary>
-        /// 
+        /// Ctor
         /// </summary>
         /// <param name="config"></param>
         public CardController(IConfiguration config)
@@ -50,19 +50,20 @@ namespace Entregable2_PD.Api.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Recibe el numero de tarjeta entre otros datos no requeridos y realiza el proceso de codificacion, encriptacion y desencriptacion asi como el enmascarameinto del numero de la tarjeta
         /// </summary>
         /// <param name="card"></param>
         /// <returns></returns>
         [HttpPost("Set")]
         public ClsResponse<dynamic> SetCard(CardDto card)
         {
-            ClsResponse<dynamic> response = new ClsResponse<dynamic>();
-            response.Error = true;
-            response.ErrorMessage = "Can not set credit card";
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            ClsResponse<dynamic> response = new()
+            {
+                Error = true,
+                ErrorMessage = "Can not set credit card"
+            };
 
-            if (identity is null)
+            if (HttpContext.User.Identity is not ClaimsIdentity identity)
             {
                 return response;
             }
@@ -92,12 +93,10 @@ namespace Entregable2_PD.Api.Controllers
                     response.ErrorMessage = "Unauthorized";
                     return response;
                 }
-                if (card.Comment is null)
+                if (!string.IsNullOrEmpty(card.Comment))
                 {
-                    return response;
+                    card.Comment = Tools.Helpers.SanitizeString.RemoveHtml(card.Comment);
                 }
-                card.Comment = Tools.Helpers.SanitizeString.RemoveHtml(card.Comment);
-
                 response.Error = false;
                 //Get Key from config to encrypt and decript
                 var encrypt = _config.GetSection("Encrypt").Get<EncritpAes>();
@@ -129,7 +128,7 @@ namespace Entregable2_PD.Api.Controllers
                 {
                     return response;
                 }
-
+                response.ErrorMessage = string.Empty;
                 response.Data = $"Masked:{NM} AC:{AC} BC:{BC}";
                 return response;
             }

@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Entregable2.Pruebas\**" />
+    <Content Remove="Entregable2.Pruebas\**" />
+    <EmbeddedResource Remove="Entregable2.Pruebas\**" />
+    <None Remove="Entregable2.Pruebas\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.12" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />

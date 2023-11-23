@@ -3,10 +3,10 @@ using Microsoft.IdentityModel.Tokens;
 using Entregable2_PD.Models.DBO.DTO;
 using Entregable2_PD.Models.DBO.Models;
 using Entregable2_PD.Models.Response;
-using Entregable2_PD.Tools;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Entregable2_PD.Tools.Helpers;
 
 namespace Entregable2_PD.Api.Controllers
 {
@@ -52,7 +52,7 @@ namespace Entregable2_PD.Api.Controllers
                     Email = _config.GetSection("CRED:EmailIntA").Value,
                     Password = HelperCryptography.EncriptarPassword(_config.GetSection("CRED:PwdIntA").Value, _config.GetSection("CRED:SaltIntA").Value),
                     Salt = _config.GetSection("CRED:SaltIntA").Value,
-                    Type = "AUTHORIZED", //(userDto.Email.Contains("ssamexico") ? "AUTHORIZED" : "UNAUTHORIZED"),
+                    Type = "AUTHORIZED", //(userDto.Email.Contains("interno") ? "AUTHORIZED" : "UNAUTHORIZED"),
                     Role = (userDto.Email.Contains("administrador") ? "ADMIN" : "USER"),
                     RegDate = DateTime.Now,
                 };
@@ -123,7 +123,7 @@ namespace Entregable2_PD.Api.Controllers
                 byte[] temporal = HelperCryptography.EncriptarPassword(userDto.Password, DbUser.Salt);
 
                 //Comparamos los arrays para comprobar si el cifrado es el mismo
-                if (!HelperCryptography.compareArrays(DbUser.Password, temporal))
+                if (!HelperCryptography.CompareArrays(DbUser.Password, temporal))
                 {
                     return cls;
                 }

@@ -1,4 +1,4 @@
-﻿using Entregable2_PD.Tools;
+﻿using Entregable2_PD.Tools.Helpers;
 using System.Security.Claims;
 
 namespace Entregable2_PD.Models.DBO.Models
@@ -38,14 +38,14 @@ namespace Entregable2_PD.Models.DBO.Models
                 {
                     new UserModel
                     {
-                        Email = "administrador@ssamexico.com",
+                        Email = "administrador@interno.com",
                         Password = HelperCryptography.EncriptarPassword("Charizard006*", "12345678900"),
                         Type = "AUTHORIZED",
                         Role = "ADMIN",
                     },
                     new UserModel
                     {
-                        Email = "usuario@ssamexico.com",
+                        Email = "usuario@interno.com",
                         Password = HelperCryptography.EncriptarPassword("Charizard006*", "12345678901"),
                         Type = "AUTHORIZED",
                         Role = "USER",
@@ -72,7 +72,7 @@ namespace Entregable2_PD.Models.DBO.Models
             catch (Exception e)
             {
                 Console.WriteLine("Error in validateToken: " + e.ToString());
-                throw;
+                throw new ArgumentNullException(e.Message);
             }
         }
     }
