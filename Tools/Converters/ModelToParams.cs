@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 
 namespace Entregable2_PD.Tools.Converters
 {
@@ -21,34 +16,24 @@ namespace Entregable2_PD.Tools.Converters
         /// <exception cref="Exception"></exception>
         public static List<Param> GetParams<T>(T model) where T : class
         {
-            try
+            PropertyInfo[] lst = typeof(T).GetProperties();
+            List<Param> parametros = new();
+            foreach (PropertyInfo oProperty in lst)
             {
-                PropertyInfo[] lst = typeof(T).GetProperties();
-                List<Param> parametros = new List<Param>();
-                foreach (PropertyInfo oProperty in lst)
+                var value = oProperty.GetValue(model);
+                value ??= DBNull.Value;
+                if (value.ToString() == string.Empty)
                 {
-                    var value = oProperty.GetValue(model);
-                    if (value is null)
-                    {
-                        value = DBNull.Value;
-                    }
-                    if (value.ToString() == string.Empty)
-                    {
-                        value = value.ToString();
-                    }
-                    if (value is not null)
-                    {
-                        parametros.Add(new Param($"@{oProperty.Name}", value));
-                    }
-                    //string Tipo = oProperty.GetType().ToString(); //Traer el tipo de dato de a propiedad ej; decimal int, string
-                    
+                    value = value.ToString();
                 }
-                return parametros;
+                if (value is not null)
+                {
+                    parametros.Add(new Param($"@{oProperty.Name}", value));
+                }
+                //string Tipo = oProperty.GetType().ToString(); //Traer el tipo de dato de a propiedad ej; decimal int, string
+
             }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return parametros;
         }
     }
 }
