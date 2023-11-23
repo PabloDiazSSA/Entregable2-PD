@@ -41,6 +41,10 @@ builder.Services.AddSwaggerGen(c =>
          }
     });
 });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowOrigins", options => options.AllowAnyOrigin());
+});
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
