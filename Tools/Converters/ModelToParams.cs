@@ -18,7 +18,7 @@ namespace Entregable2_PD.Tools.Converters
         /// <typeparam name="T"></typeparam>
         /// <param name="model"></param>
         /// <returns></returns>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="Exception"></exception>
         public static List<Param> GetParams<T>(T model) where T : class
         {
             try
@@ -47,7 +47,7 @@ namespace Entregable2_PD.Tools.Converters
             }
             catch (Exception ex)
             {
-                throw new ArgumentNullException(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
     }

@@ -32,7 +32,7 @@ namespace Entregable2_PD.Models.DBO.Models
             {
                 if (identity == null || !identity.Claims.Any())
                 {
-                    throw new ArgumentNullException(nameof(identity));
+                    throw new Exception(nameof(identity));
                 }
                 List<UserModel> db = new()
                 {
@@ -72,7 +72,7 @@ namespace Entregable2_PD.Models.DBO.Models
             catch (Exception e)
             {
                 Console.WriteLine("Error in validateToken: " + e.ToString());
-                throw new ArgumentNullException(e.Message);
+                throw new Exception(e.Message);
             }
         }
     }
