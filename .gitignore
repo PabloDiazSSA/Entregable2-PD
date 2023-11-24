@@ -398,4 +398,6 @@ FodyWeavers.xsd
 *.sln.iml
 
 #SettingsFiles
-appsettings.Production.json
+/appsettings.Production.json
+#DAtaTests
+Data/DbUsersTest/DbUsers.cs

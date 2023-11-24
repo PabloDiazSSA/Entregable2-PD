@@ -66,11 +66,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Authorized", policy => policy.RequireClaim("Type", builder.Configuration["Policy:A"]));
 });
 var app = builder.Build();
-
-/*
-if (app.Environment.IsDevelopment())
-{}
-*/
+//puede estar disponible solo para desarrollo
     app.UseSwagger();
     app.UseSwaggerUI();
 

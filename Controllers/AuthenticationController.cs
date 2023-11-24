@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Entregable2_PD.Tools.Helpers;
+using Entregable2_PD.Data.DbUsersTest;
 
 namespace Entregable2_PD.Api.Controllers
 {
@@ -46,60 +47,10 @@ namespace Entregable2_PD.Api.Controllers
                 {
                     return cls;
                 }
-                UserModel userIntA = new()
-                {
-                    Name = userDto.Email.Split('@')[0],
-                    Email = _config.GetSection("CRED:EmailIntA").Value,
-                    Password = _config.GetSection("CRED:PwdIntA").Value,
-                    Salt = _config.GetSection("CRED:SaltIntA").Value,
-                    Type = (userDto.Email.Contains("interno") ? "AUTHORIZED" : "UNAUTHORIZED"),
-                    Role = (userDto.Email.Contains("administrador") ? "ADMIN" : "USER"),
-                    RegDate = DateTime.Now,
-                };
 
-                UserModel userIntU = new()
-                {
-                    Name = userDto.Email.Split('@')[0],
-                    Email = _config.GetSection("CRED:EmailIntU").Value,
-                    Password = _config.GetSection("CRED:PwdIntU").Value,
-                    Salt = _config.GetSection("CRED:SaltIntU").Value,
-                    Type = (userDto.Email.Contains("interno") ? "AUTHORIZED" : "UNAUTHORIZED"),
-                    Role = (userDto.Email.Contains("administrador") ? "ADMIN" : "USER"),
-                    RegDate = DateTime.Now,
-                };
+                List<UserModel> db = DbUsers.ReturnUsersForTesting(_config);
 
-                UserModel userExtA = new()
-                {
-                    Name = userDto.Email.Split('@')[0],
-                    Email = _config.GetSection("CRED:EmailExtA").Value,
-                    Password = _config.GetSection("CRED:PwdExtA").Value,
-                    Salt = _config.GetSection("CRED:SaltExtA").Value,
-                    Type =  "AUTHORIZED",
-                    Role = (userDto.Email.Contains("administrador") ? "ADMIN" : "USER"),
-                    RegDate = DateTime.Now,
-                };
-
-                UserModel userExtU = new()
-                {
-                    Name = userDto.Email.Split('@')[0],
-                    Email = _config.GetSection("CRED:EmailExtU").Value,
-                    Password = _config.GetSection("CRED:PwdExtU").Value,
-                    Salt = _config.GetSection("CRED:SaltExtU").Value,
-                    Type = "UNAUTHORIZED",
-                    Role = (userDto.Email.Contains("administrador") ? "ADMIN" : "USER"),
-                    RegDate = DateTime.Now,
-                };
-
-
-                var DbUsers = new List<UserModel>
-                {
-                    userIntA,
-                    userIntU,
-                    userExtA,
-                    userExtU
-                };
-
-                UserModel DbUser = DbUsers.First(x => x.Email == userDto.Email.ToLower());
+                UserModel DbUser = db.First(x => x.Email == userDto.Email.ToLower());
                 if (DbUser is null || DbUser.Password is null || DbUser.Salt is null || userDto.Password is null)
                 {
                     cls.Message = $"Credenciales inválidas. ";

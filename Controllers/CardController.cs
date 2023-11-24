@@ -75,7 +75,7 @@ namespace Entregable2_PD.Api.Controllers
 
             try
             {
-                var rToken = Jwt.ValidateToken(identity);
+                var rToken = Jwt.ValidateToken(identity, _config);
                 var user = rToken;
 
                 if (user == null)
@@ -95,7 +95,7 @@ namespace Entregable2_PD.Api.Controllers
                 }
                 if (!string.IsNullOrEmpty(card.Comment))
                 {
-                    card.Comment = Tools.Helpers.SanitizeString.RemoveHtml(card.Comment);
+                    card.Comment = SanitizeString.RemoveHtml(card.Comment);
                 }
                 response.Error = false;
                 //Get Key from config to encrypt and decript

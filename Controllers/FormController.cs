@@ -16,6 +16,18 @@ namespace Entregable2_PD.Api.Controllers
     public class FormController : ControllerBase
     {
         /// <summary>
+        /// 
+        /// </summary>
+        private readonly IConfiguration _config;
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="config"></param>
+        public FormController(IConfiguration config)
+        {
+            _config = config;
+        }
+        /// <summary>
         /// Metodo de ejemplos de seguridad usando regex y datannotations en campos de un formulario
         /// </summary>
         /// <param name="form"></param>
@@ -23,8 +35,7 @@ namespace Entregable2_PD.Api.Controllers
         [HttpPost("Set")]
         public ClsResponse<dynamic> SetForm(FormDto form)
         {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            if (identity is null)
+            if (HttpContext.User.Identity is not ClaimsIdentity identity)
             {
                 return new ClsResponse<dynamic> { Error = true, ErrorMessage = "Unauthenticated" };
             }
@@ -32,7 +43,7 @@ namespace Entregable2_PD.Api.Controllers
             {
                 Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
             }
-            var rToken = Jwt.ValidateToken(identity);
+            var rToken = Jwt.ValidateToken(identity, _config);
             var user = rToken;
 
             if (user is null || user.Role is null)
