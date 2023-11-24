@@ -400,4 +400,3 @@ FodyWeavers.xsd
 #SettingsFiles
 /appsettings.Production.json
 #DAtaTests
-Data/DbUsersTest/DbUsers.cs
