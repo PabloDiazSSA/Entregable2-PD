@@ -41,10 +41,12 @@ builder.Services.AddSwaggerGen(c =>
          }
     });
 });
+/*
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowOrigins", options => options.AllowAnyOrigin());
 });
+*/
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -71,7 +73,7 @@ var app = builder.Build();
     app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
-app.UseCors();
+//app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
