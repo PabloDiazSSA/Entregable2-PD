@@ -50,7 +50,7 @@ namespace Entregable2_PD.Api.Controllers
                 {
                     Name = userDto.Email.Split('@')[0],
                     Email = _config.GetSection("CRED:EmailIntA").Value,
-                    Password = HelperCryptography.EncriptarPassword(_config.GetSection("CRED:PwdIntA").Value, _config.GetSection("CRED:SaltIntA").Value),
+                    Password = _config.GetSection("CRED:PwdIntA").Value,
                     Salt = _config.GetSection("CRED:SaltIntA").Value,
                     Type = (userDto.Email.Contains("interno") ? "AUTHORIZED" : "UNAUTHORIZED"),
                     Role = (userDto.Email.Contains("administrador") ? "ADMIN" : "USER"),
@@ -61,7 +61,7 @@ namespace Entregable2_PD.Api.Controllers
                 {
                     Name = userDto.Email.Split('@')[0],
                     Email = _config.GetSection("CRED:EmailIntU").Value,
-                    Password = HelperCryptography.EncriptarPassword(_config.GetSection("CRED:PwdIntU").Value, _config.GetSection("CRED:SaltIntU").Value),
+                    Password = _config.GetSection("CRED:PwdIntU").Value,
                     Salt = _config.GetSection("CRED:SaltIntU").Value,
                     Type = (userDto.Email.Contains("interno") ? "AUTHORIZED" : "UNAUTHORIZED"),
                     Role = (userDto.Email.Contains("administrador") ? "ADMIN" : "USER"),
@@ -72,7 +72,7 @@ namespace Entregable2_PD.Api.Controllers
                 {
                     Name = userDto.Email.Split('@')[0],
                     Email = _config.GetSection("CRED:EmailExtA").Value,
-                    Password = HelperCryptography.EncriptarPassword(_config.GetSection("CRED:PwdExtA").Value, _config.GetSection("CRED:SaltExtA").Value),
+                    Password = _config.GetSection("CRED:PwdExtA").Value,
                     Salt = _config.GetSection("CRED:SaltExtA").Value,
                     Type =  "AUTHORIZED",
                     Role = (userDto.Email.Contains("administrador") ? "ADMIN" : "USER"),
@@ -83,7 +83,7 @@ namespace Entregable2_PD.Api.Controllers
                 {
                     Name = userDto.Email.Split('@')[0],
                     Email = _config.GetSection("CRED:EmailExtU").Value,
-                    Password = HelperCryptography.EncriptarPassword(_config.GetSection("CRED:PwdExtU").Value, _config.GetSection("CRED:SaltExtU").Value),
+                    Password = _config.GetSection("CRED:PwdExtU").Value,
                     Salt = _config.GetSection("CRED:SaltExtU").Value,
                     Type = "UNAUTHORIZED",
                     Role = (userDto.Email.Contains("administrador") ? "ADMIN" : "USER"),
@@ -105,29 +105,12 @@ namespace Entregable2_PD.Api.Controllers
                     cls.Message = $"Credenciales inválidas. ";
                     return cls;
                 }
-              
-/* //Funcionalidad para uso de base de datos
-#if !DEBUG
-                UserModel userModel = new UserModel();
-                userModel.Action = "Authenticate";
-                userModel.Email = userDto.Email;
-                var result = await _db.ExecuteSpAsync<UserModel>(_config.GetSection("SP:Auth").Value, ModelToParams.GetParams<UserModel>(userModel));
-                if (result.Error)
-                {
-                    cls.Message = result.Message;
-                    return cls;
-                }
 
-                userModel = result.Data;
-#endif
-*/
-                //Debemos comparar con la base de datos el password haciendo de nuevo el cifrado con cada salt de usuario
-
-                //Ciframos de nuevo para comparar
-                byte[] temporal = HelperCryptography.EncriptarPassword(userDto.Password, DbUser.Salt);
+                //Debemos comparar con la base de datos el password haciendo de nuevo el cifrado con salt de usuario
+                string temporal = HelperCryptography.EncriptarPassword(userDto.Password, DbUser.Salt);
 
                 //Comparamos los arrays para comprobar si el cifrado es el mismo
-                if (!HelperCryptography.CompareArrays(DbUser.Password, temporal))
+                if (DbUser.Password != temporal)
                 {
                     return cls;
                 }

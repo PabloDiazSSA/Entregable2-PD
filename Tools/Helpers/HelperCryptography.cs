@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using Entregable2_PD.Tools.Converters;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Entregable2_PD.Tools.Helpers
@@ -51,10 +52,11 @@ namespace Entregable2_PD.Tools.Helpers
         /// <param name="password"></param>
         /// <param name="salt"></param>
         /// <returns>password encripted</returns>
-        public static byte[] EncriptarPassword(string password, string salt)
+        public static string EncriptarPassword(string password, string salt)
         {
             SHA256 sha256 = SHA256.Create();
-            return sha256.ComputeHash(Encoding.UTF8.GetBytes(string.Concat(password, salt)));
+            byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(string.Concat(password, salt)));
+            return ArrayBytesTo.ConvertByteArrToStringHex(bytes);
         }
         /// <summary>
         /// Codificacion SHA256 de texto plano
@@ -66,15 +68,9 @@ namespace Entregable2_PD.Tools.Helpers
             using SHA256 sha256 = SHA256.Create();
             byte[] bytes = Encoding.UTF8.GetBytes(plaintext);
             byte[] hashBytes = sha256.ComputeHash(bytes);
-
-            StringBuilder stringBuilder = new();
-            for (int i = 0; i < hashBytes.Length; i++)
-            {
-                stringBuilder.Append(hashBytes[i].ToString("x2")); // Convierte el byte a su representación en hexadecimal
-            }
-
-            return stringBuilder.ToString();
+            return ArrayBytesTo.ConvertByteArrToStringHex(hashBytes);
         }
+
         /// <summary>
         /// Encriptacion de texto plano
         /// </summary>
@@ -123,8 +119,5 @@ namespace Entregable2_PD.Tools.Helpers
             }
             return Encoding.UTF8.GetString(decryptedBytes);
         }
-
-
-
     }
 }

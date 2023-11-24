@@ -21,7 +21,7 @@ namespace Entregable2_PD.Models.DBO.Models
         /// 
         /// </summary>
         [Required]
-        public byte[]? Password { get; set; }
+        public string? Password { get; set; }
         /// <summary>
         /// 
         /// </summary>
