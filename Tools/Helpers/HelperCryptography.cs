@@ -10,7 +10,7 @@ namespace Entregable2_PD.Tools.Helpers
     public class HelperCryptography
     {
         /// <summary>
-        /// 
+        /// contrunctor protegido
         /// </summary>
         protected HelperCryptography()
         {
