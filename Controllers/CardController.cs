@@ -22,23 +22,23 @@ namespace Entregable2_PD.Api.Controllers
         /// <summary>
         /// Almacena el numero de tarjeta original
         /// </summary>
-        public static string A { get; set; } = string.Empty;
+        public string A { get; set; } = string.Empty;
         /// <summary>
         /// Almacena el numero de tarjeta codificado
         /// </summary>
-        public static string AC { get; set; } = string.Empty;
+        public string AC { get; set; } = string.Empty;
         /// <summary>
         /// Almacena el numero de tarjeta encriptado y codificado
         /// </summary>
-        public static byte[]? AE { get; set; }
+        public byte[]? AE { get; set; }
         /// <summary>
         /// Almacena el numero de tarjeta codificado desencriptado
         /// </summary>
-        public static string B { get; set; } = string.Empty;
+        public string B { get; set; } = string.Empty;
         /// <summary>
         /// Almacena el numero de tarjeta codificado
         /// </summary>
-        public static string BC { get; set; } = string.Empty;
+        public string BC { get; set; } = string.Empty;
 
         /// <summary>
         /// Ctor
@@ -107,10 +107,11 @@ namespace Entregable2_PD.Api.Controllers
                 byte[] key = Encoding.UTF8.GetBytes(encrypt.Key);
                 byte[] iv = Encoding.UTF8.GetBytes(encrypt.Iv);
 
-                if (card.CardNumber is null)
+                if (string.IsNullOrEmpty(card.CardNumber))
                 {
                     return response;
                 }
+            
                 //Save A
                 A = card.CardNumber;
                 //Mask credit Card Number (A)

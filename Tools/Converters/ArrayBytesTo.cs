@@ -5,9 +5,15 @@ namespace Entregable2_PD.Tools.Converters
     /// <summary>
     /// 
     /// </summary>
-    public static class ArrayBytesTo
+    public class ArrayBytesTo
     {
-
+        /// <summary>
+        /// 
+        /// </summary>
+        protected ArrayBytesTo()
+        {
+            
+        }
         /// <summary>
         /// Funcion par apasar de array de bytes a string hexadecimal
         /// </summary>

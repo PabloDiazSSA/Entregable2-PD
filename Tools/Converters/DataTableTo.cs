@@ -10,8 +10,15 @@ namespace Entregable2_PD.Tools.Converters
     /// <summary>
     /// 
     /// </summary>
-    public static class DataTableTo
+    public class DataTableTo
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        protected DataTableTo()
+        {
+            
+        }
         /// <summary>
         /// 
         /// </summary>

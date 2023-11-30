@@ -5,8 +5,15 @@ namespace Entregable2_PD.Tools.Converters
     /// <summary>
     /// 
     /// </summary>
-    public static class ModelToParams
+    public class ModelToParams
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        protected ModelToParams()
+        {
+                
+        }
         /// <summary>
         /// 
         /// </summary>

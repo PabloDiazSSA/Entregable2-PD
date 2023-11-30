@@ -37,7 +37,7 @@ namespace Entregable2_PD.Models.DBO.DTO
         /// </summary>
         [StringLength(3)]
         [RegularExpression(@"^\d{3}$", ErrorMessage = "Invalid cvv format")]
-        public string? Cvv { get; set; } = string.Empty;
+        public string? Cvv { get; set; }
         /// <summary>
         /// 
         /// </summary>

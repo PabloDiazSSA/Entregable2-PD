@@ -5,24 +5,32 @@ namespace Entregable2_PD.Data.DbUsersTest
     /// <summary>
     /// 
     /// </summary>
-    public static class DbUsers
+    public class DbUsers
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        protected DbUsers()
+        {
+                
+        }
         /// <summary>
         /// retorna dbusers
         /// </summary>
         /// <returns></returns>
-        public static List<UserModel> ReturnUsersForTesting(IConfiguration _config)
+        public static List<UserModel> ReturnUsersForTesting(IConfiguration cfg)
         {
             try
             {
+                var _config = cfg;
                 UserModel userIntA = new()
                 {
                     Name = _config.GetSection("CRED:EmailIntA").Value.Split('@')[0],
                     Email = _config.GetSection("CRED:EmailIntA").Value,
                     Password = _config.GetSection("CRED:PwdIntA").Value,
                     Salt = _config.GetSection("CRED:SaltIntA").Value,
-                    Type = (_config.GetSection("CRED:EmailIntA").Value.Contains("interno") ? "AUTHORIZED" : "UNAUTHORIZED"),
-                    Role = (_config.GetSection("CRED:EmailIntA").Value.Contains("administrador") ? "ADMIN" : "USER"),
+                    Type = _config.GetSection("CRED:EmailIntA").Value.Contains("interno") ? "AUTHORIZED" : "UNAUTHORIZED",
+                    Role = _config.GetSection("CRED:EmailIntA").Value.Contains("administrador") ? "ADMIN" : "USER",
                     RegDate = DateTime.Now,
                 };
 
@@ -32,8 +40,8 @@ namespace Entregable2_PD.Data.DbUsersTest
                     Email = _config.GetSection("CRED:EmailIntU").Value,
                     Password = _config.GetSection("CRED:PwdIntU").Value,
                     Salt = _config.GetSection("CRED:SaltIntU").Value,
-                    Type = (_config.GetSection("CRED:EmailIntU").Value.Contains("interno") ? "AUTHORIZED" : "UNAUTHORIZED"),
-                    Role = (_config.GetSection("CRED:EmailIntU").Value.Contains("administrador") ? "ADMIN" : "USER"),
+                    Type = _config.GetSection("CRED:EmailIntU").Value.Contains("interno") ? "AUTHORIZED" : "UNAUTHORIZED",
+                    Role = _config.GetSection("CRED:EmailIntU").Value.Contains("administrador") ? "ADMIN" : "USER",
                     RegDate = DateTime.Now,
                 };
 
@@ -44,7 +52,7 @@ namespace Entregable2_PD.Data.DbUsersTest
                     Password = _config.GetSection("CRED:PwdExtA").Value,
                     Salt = _config.GetSection("CRED:SaltExtA").Value,
                     Type = "AUTHORIZED",
-                    Role = (_config.GetSection("CRED:EmailExtA").Value.Contains("administrador") ? "ADMIN" : "USER"),
+                    Role = _config.GetSection("CRED:EmailExtA").Value.Contains("administrador") ? "ADMIN" : "USER",
                     RegDate = DateTime.Now,
                 };
 
@@ -55,7 +63,7 @@ namespace Entregable2_PD.Data.DbUsersTest
                     Password = _config.GetSection("CRED:PwdExtU").Value,
                     Salt = _config.GetSection("CRED:SaltExtU").Value,
                     Type = "UNAUTHORIZED",
-                    Role = (_config.GetSection("CRED:EmailExtU").Value.Contains("administrador") ? "ADMIN" : "USER"),
+                    Role = _config.GetSection("CRED:EmailExtU").Value.Contains("administrador") ? "ADMIN" : "USER",
                     RegDate = DateTime.Now,
                 };
                 return new List<UserModel>

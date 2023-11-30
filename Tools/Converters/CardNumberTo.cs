@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Entregable2_PD.Tools.Converters
+﻿namespace Entregable2_PD.Tools.Converters
 {
     /// <summary>
     /// 
     /// </summary>
-    public static class CardNumberTo
+    public class CardNumberTo
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        protected CardNumberTo()
+        {
+            
+        }
         /// <summary>
         /// Enmascarar con X el numero de tarjetas exeptuando los ultimos 4 digitos
         /// </summary>

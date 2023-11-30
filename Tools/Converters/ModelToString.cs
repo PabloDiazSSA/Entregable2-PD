@@ -1,17 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Entregable2_PD.Tools.Converters
 {
     /// <summary>
     /// 
     /// </summary>
-    public static class ModelToString
+    public class ModelToString
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        protected ModelToString()
+        {
+            
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -23,7 +26,7 @@ namespace Entregable2_PD.Tools.Converters
             try
             {
                 PropertyInfo[] lst = typeof(T).GetProperties();
-                StringBuilder bld = new StringBuilder();
+                StringBuilder bld = new();
                 foreach (PropertyInfo oProperty in lst)
                 {
                     var value = oProperty.GetValue(model);
