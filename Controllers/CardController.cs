@@ -22,11 +22,11 @@ namespace Entregable2_PD.Api.Controllers
         /// <summary>
         /// Almacena el numero de tarjeta original
         /// </summary>
-        public string A { get; set; } = string.Empty;
+        public string A { get; set; }
         /// <summary>
         /// Almacena el numero de tarjeta codificado
         /// </summary>
-        public string AC { get; set; } = string.Empty;
+        public string AC { get; set; }
         /// <summary>
         /// Almacena el numero de tarjeta encriptado y codificado
         /// </summary>
@@ -34,11 +34,11 @@ namespace Entregable2_PD.Api.Controllers
         /// <summary>
         /// Almacena el numero de tarjeta codificado desencriptado
         /// </summary>
-        public string B { get; set; } = string.Empty;
+        public string B { get; set; }
         /// <summary>
         /// Almacena el numero de tarjeta codificado
         /// </summary>
-        public string BC { get; set; } = string.Empty;
+        public string BC { get; set; }
 
         /// <summary>
         /// Ctor
@@ -46,7 +46,11 @@ namespace Entregable2_PD.Api.Controllers
         /// <param name="config"></param>
         public CardController(IConfiguration config)
         {
-            _config = config;   
+            _config = config;
+            A = string.Empty;
+            B = string.Empty;
+            BC = string.Empty;
+            AC = string.Empty;
         }
 
         /// <summary>

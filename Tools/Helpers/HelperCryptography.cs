@@ -7,8 +7,15 @@ namespace Entregable2_PD.Tools.Helpers
     /// <summary>
     /// 
     /// </summary>
-    public static class HelperCryptography
+    public class HelperCryptography
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        protected HelperCryptography()
+        {
+            
+        }
         /// <summary>
         /// Funcion para generar salts random
         /// </summary>
