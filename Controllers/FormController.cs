@@ -19,13 +19,16 @@ namespace Entregable2_PD.Api.Controllers
         /// 
         /// </summary>
         private readonly IConfiguration _config;
+        private readonly ILogger<FormController> _logger;
         /// <summary>
         /// Ctor
         /// </summary>
         /// <param name="config"></param>
-        public FormController(IConfiguration config)
+        /// <param name="logger"></param>
+        public FormController(IConfiguration config, ILogger<FormController> logger)
         {
             _config = config;
+            _logger = logger;
         }
         /// <summary>
         /// Metodo de ejemplos de seguridad usando regex y datannotations en campos de un formulario
@@ -35,28 +38,38 @@ namespace Entregable2_PD.Api.Controllers
         [HttpPost("Set")]
         public ClsResponse<dynamic> SetForm(FormDto form)
         {
-            if (HttpContext.User.Identity is not ClaimsIdentity identity)
+            try
             {
-                return new ClsResponse<dynamic> { Error = true, ErrorMessage = "Unauthenticated" };
-            }
-            foreach (var claim in identity.Claims)
-            {
-                Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
-            }
-            var rToken = Jwt.ValidateToken(identity, _config);
-            var user = rToken;
+                if (HttpContext.User.Identity is not ClaimsIdentity identity)
+                {
+                    return new ClsResponse<dynamic> { Error = true, ErrorMessage = "Unauthenticated" };
+                }
+                foreach (var claim in identity.Claims)
+                {
+                    Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
+                }
+                var rToken = Jwt.ValidateToken(identity, _config);
+                var user = rToken;
 
-            if (user is null || user.Role is null)
-            {
-                return new ClsResponse<dynamic> { Error = true, ErrorMessage = "Unauthenticated" };
-            }
+                if (user is null || user.Role is null)
+                {
+                    return new ClsResponse<dynamic> { Error = true, ErrorMessage = "Unauthenticated" };
+                }
 
-            if (user.Role.ToUpper() != "ADMIN")
-            {
-                return new ClsResponse<dynamic> { Error = true, ErrorMessage = "Unauthorized" };
-            }
+                if (user.Role.ToUpper() != "ADMIN")
+                {
+                    return new ClsResponse<dynamic> { Error = true, ErrorMessage = "Unauthorized" };
+                }
 
-            return new ClsResponse<dynamic> { Error = true, Data = form };
+                return new ClsResponse<dynamic> { Error = true, Data = form };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex.Message, ex);
+                return new ClsResponse<dynamic> { Error = true, ErrorMessage = "Ocurrio un error, reintentarlo más tarde" };
+
+            }
+        
         }
 
 

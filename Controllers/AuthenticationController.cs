@@ -19,13 +19,17 @@ namespace Entregable2_PD.Api.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IConfiguration _config;
+        private readonly ILogger<AuthenticationController> _logger;
+ 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="config"></param>
-        public AuthenticationController(IConfiguration config)
+        /// <param name="logger"></param>
+        public AuthenticationController(IConfiguration config, ILogger<AuthenticationController> logger)
         {
             _config = config;
+            _logger = logger;
         }
 
         /// <summary>
@@ -81,6 +85,7 @@ namespace Entregable2_PD.Api.Controllers
 #if DEBUG
                 Console.WriteLine(ex.Message);
 #endif
+                _logger.LogWarning(msg);
                 cls.ErrorMessage = msg;
                 return cls;
                 throw;
@@ -127,6 +132,7 @@ namespace Entregable2_PD.Api.Controllers
 #if DEBUG
                 Console.WriteLine(ex.Message);
 #endif
+                _logger.LogError(ex.Message, ex);
                 return string.Empty;
                 throw;
             }

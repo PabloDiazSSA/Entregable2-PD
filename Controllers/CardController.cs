@@ -19,6 +19,7 @@ namespace Entregable2_PD.Api.Controllers
     public class CardController : ControllerBase
     {
         private readonly IConfiguration _config;
+        private readonly ILogger<CardController> _logger;
         /// <summary>
         /// Almacena el numero de tarjeta original
         /// </summary>
@@ -44,9 +45,11 @@ namespace Entregable2_PD.Api.Controllers
         /// Ctor
         /// </summary>
         /// <param name="config"></param>
-        public CardController(IConfiguration config)
+        /// <param name="logger"></param>
+        public CardController(IConfiguration config, ILogger<CardController> logger)
         {
             _config = config;
+            _logger = logger;
             A = string.Empty;
             B = string.Empty;
             BC = string.Empty;
@@ -143,6 +146,7 @@ namespace Entregable2_PD.Api.Controllers
 #if DEBUG
                 Console.WriteLine(ex.Message);
 #endif
+                _logger.LogWarning(msg);
                 response.ErrorMessage = msg;
                 return response;
             }
